@@ -1,0 +1,53 @@
+# Go to Deployments folder
+cd ~/Developer/k8s/labs/getting-started-k8s/Deployments
+
+# Stop k8s pod
+kubectl delete pod hello-pod
+
+# Deploy k8s w/replicas
+kubectl apply -f deploy.yml
+
+# Verify replica set
+kubectl get rs
+
+# Describe service endpoints
+kubectl describe ep ps-lb
+
+# List running pods
+kubectl get pods
+
+# Destroy one of the pods
+kubectl delete pod web-deploy-7b4ddc97db-fn5vb
+
+# Manually scale up pods
+kubectl apply -f deploy.yml
+
+# Manually scale down pods
+kubectl apply -f deploy.yml
+
+# Go to App v2 folder
+cd ~/Developer/k8s/labs/getting-started-k8s/App/v2
+
+# Build Docker image v2 for k8s
+docker image build -t foomantics/getting-started-k8s:2.0 .
+
+# Upload docker image to foomantics Docker hub
+docker image push foomantics/getting-started-k8s:2.0
+
+# Go back to Deployments folder
+cd ~/Developer/k8s/labs/getting-started-k8s/Deployments
+
+# Deploy k8s w/rolling updates
+kubectl apply -f deploy-complete.yml
+
+# Watch pods live view
+kubectl get pods --watch
+
+# Deploy rolling updates
+kubectl rollout status deploy web-deploy
+
+# List rollout history
+kubectl rollout history deploy web-deploy
+
+# Rollback updates
+kubectl rollout undo deploy web-deploy --to-revision=1

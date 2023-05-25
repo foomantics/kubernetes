@@ -1,0 +1,33 @@
+# Clone Getting Started k8s lab repo
+git clone https://github.com/nigelpoulton/getting-started-k8s.git
+
+# Go to Apps folder
+cd ~/Developer/k8s/labs/getting-started-k8s/App/v1
+
+# Build Docker image for k8s
+docker image build -t foomantics/getting-started-k8s:1.0 .
+
+# Upload docker image to foomantics Docker hub
+docker image push foomantics/getting-started-k8s:1.0
+
+# Get k8s cluster info
+kubectl cluster-info
+
+# Go to pods folder
+cd ~/Developer/k8s/labs/getting-started-k8s/pods
+
+# Deploy single container pod
+kubectl apply -f pod.yml
+
+# Show state of pods for running k8s
+kubectl get pods --watch
+kubectl get pods -o wide
+
+# Show verbose state of pod
+kubectl describe pods hello-pod
+
+# Deploy multi-container pod
+kubectl apply -f multi-pod.yml
+
+# Delete multi-container pod
+kubectl delete -f multi-pod.yml

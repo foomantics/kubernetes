@@ -1,0 +1,22 @@
+# Expose single container pod imperatively
+kubectl expose pod hello-pod --name=hello-svc \
+--target-port=8080 --type=NodePort
+
+# Verify hello-svc service running
+kubectl get svc
+
+# Delete hello-svc service
+kubectl delete svc hello-svc
+
+# Go to services folder
+cd ~/Developer/k8s/labs/getting-started-k8s/services
+
+# Expose single container pod declaritively
+kubectl apply -f svc-nodeport.yml
+
+# Verify hello-svc service running
+kubectl describe svc ps-nodeport
+
+# Deploy load balancer for k8s
+kubectl apply -f svc-lb.yml
+
